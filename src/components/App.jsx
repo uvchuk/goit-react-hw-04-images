@@ -1,10 +1,15 @@
-import { Component } from 'react';
+import { useState } from 'react';
+import SearchBar from './Searchbar/Searchbar';
+import ImageGallery from './ImageGallery/ImageGallery';
 
-class App extends Component {
-  state = {};
-  render() {
-    return <h1>Hello!</h1>;
-  }
-}
+const App = () => {
+  const [query, setQuery] = useState('');
 
+  return (
+    <>
+      <SearchBar onSubmit={setQuery} />
+      <ImageGallery searchQuery={query} />
+    </>
+  );
+};
 export default App;
