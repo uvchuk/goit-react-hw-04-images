@@ -1,4 +1,5 @@
 import galleryAPI from '../../services/pixabay_api';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Notify } from 'notiflix';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
@@ -89,4 +90,9 @@ const ImageGallery = ({ searchQuery }) => {
       </>
     );
 };
+
+ImageGallery.propTypes = {
+  searchQuery: PropTypes.string,
+};
+
 export default ImageGallery;

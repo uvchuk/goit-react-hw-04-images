@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Notify } from 'notiflix';
 import { BiSearch } from 'react-icons/bi';
 import { useState } from 'react';
@@ -37,6 +38,10 @@ const Searchbar = ({ onSubmit }) => {
       </form>
     </header>
   );
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func,
 };
 
 export default Searchbar;

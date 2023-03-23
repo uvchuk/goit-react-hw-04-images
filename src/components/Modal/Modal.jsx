@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import css from './Modal.module.css';
 
@@ -17,4 +18,10 @@ export const Modal = ({ openedImage: { src, tags }, onClick }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  src: PropTypes.string,
+  tags: PropTypes.string,
+  onClick: PropTypes.func,
 };
