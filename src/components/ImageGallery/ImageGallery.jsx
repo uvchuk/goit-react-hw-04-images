@@ -16,36 +16,39 @@ const ImageGallery = ({ searchQuery }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (searchQuery) {
-      setStatus('pending');
-      setPage(1);
-      galleryAPI
-        .getImages(searchQuery)
-        .then(({ hits, totalHits }) => {
-          if (hits.length > 0) {
-            setImages(hits);
-            setPage(2);
-            setTotal(totalHits);
-            setStatus('resolved');
-          } else
-            return Promise.reject(
-              new Error(`No matches with query: ${searchQuery}`)
-            );
-        })
-        .catch(({ message }) => {
-          setError(message);
-          setStatus('rejected');
-        });
+    if (!searchQuery) {
+      return;
     }
+    setPage(1);
+    setStatus('pending');
+    galleryAPI
+      .getImages(searchQuery)
+      .then(({ hits, totalHits }) => {
+        if (totalHits) {
+          setImages(hits);
+          setPage(prevPage => prevPage + 1);
+          setTotal(totalHits);
+          setStatus('resolved');
+        } else
+          return Promise.reject(
+            new Error(`No matches with query: ${searchQuery}`)
+          );
+      })
+      .catch(({ message }) => {
+        setError(message);
+        setStatus('rejected');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const onLoadMore = () => {
-    setPage(prevState => prevState + 1);
     galleryAPI
       .getImages(searchQuery, page)
       .then(({ hits }) => {
-        if (hits.length > 0) setImages(prevState => [...prevState, ...hits]);
-        else
+        if (hits.length > 0) {
+          setImages(prevState => [...prevState, ...hits]);
+          setPage(prevPage => prevPage + 1);
+        } else
           return Promise.reject(
             new Error(`No matches with query: ${searchQuery}`)
           );
